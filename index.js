@@ -1,43 +1,10 @@
 import express from "express";
-import { Sequelize, DataTypes } from "sequelize";
-
-// Configuração do Sequelize para conectar ao banco de dados PostgreSQL
-const sequelize = new Sequelize("postgres", "postgres", "Djg@0702", {
-  host: "localhost",
-  port: 5432,
-  dialect: "postgres",
-  define: {
-    timestamps: false,
-    freezeTableName: true,
-  },
-});
-
-// Model para a tabela "Editora"
-const Editora = sequelize.define("editora", {
-  id_editora: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  nome_editora: {
-    type: DataTypes.STRING(60),
-    allowNull: false,
-  },
-  cnpj: {
-    type: DataTypes.STRING(20),
-    allowNull: false,
-    unique: true,
-  },
-  endereco: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-});
+import banco from "./banco.js";
+import editora from "./controller/EditoraController.js";
 
 // Verificar se a conexão com o banco de dados foi estabelecida com sucesso
 try {
-  await sequelize.authenticate();
+  await banco.authenticate();
   console.log("Conexão com o banco estabelecida com sucesso.");
 } catch (error) {
   console.error("Não foi possível estabelecer uma conexão com o banco:", error);
@@ -54,42 +21,19 @@ app.get("/teste", (req, res) => {
 
 //Rotas CRUD tabela editora
 //Busca todos os registros editora
-app.get("/editora", async (req, res) => {
-  const respostabanco = await Editora.findAll();
-  res.json(respostabanco);
-});
+app.get("/editora", editora.listar);
 
 //Busca editora por parametro de id
-app.get("/editora/:id_editora", async (req, res) => {
-  const id_editora = req.params.id_editora;
-  const respostabanco = await Editora.findByPk(id_editora);
-  res.json(respostabanco);
-});
+app.get("/editora/:id_editora", editora.selecionar);
 
 //Insere editora
-app.post("/editora", async (req, res) => {
-  const { nome_editora, cnpj, endereco } = req.body;
-  const respostabanco = await Editora.create({ nome_editora, cnpj, endereco });
-  res.json(respostabanco);
-});
+app.post("/editora", editora.inserir);
 
 //Atualiza editora por id
-app.put("/editora/:id_editora", async (req, res) => {
-  const id_editora = req.params.id_editora;
-  const { nome_editora, cnpj, endereco } = req.body;
-  const respostabanco = await Editora.update(
-    { nome_editora, cnpj, endereco },
-    { where: { id_editora } }
-  );
-  res.json(respostabanco);
-});
+app.put("/editora/:id_editora", editora.alterar);
 
 //Deleta editora por id
-app.delete("/editora/:id_editora", async (req, res) => {
-  const id_editora = req.params.id_editora;
-  const respostabanco = await Editora.destroy({ where: { id_editora } });
-  res.json(respostabanco);
-});
+app.delete("/editora/:id_editora", editora.excluir);
 
 // app conectada na porta 3000
 app.listen(3000, () => {
