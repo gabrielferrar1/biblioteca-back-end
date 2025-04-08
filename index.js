@@ -60,9 +60,9 @@ app.get("/editora", async (req, res) => {
 });
 
 //Busca editora por parametro de id
-app.get("/editora/:id", async (req, res) => {
-  const id = req.params.id;
-  const respostabanco = await Editora.findByPk(id);
+app.get("/editora/:id_editora", async (req, res) => {
+  const id_editora = req.params.id_editora;
+  const respostabanco = await Editora.findByPk(id_editora);
   res.json(respostabanco);
 });
 
@@ -74,8 +74,8 @@ app.post("/editora", async (req, res) => {
 });
 
 //Atualiza editora por id
-app.put("/editora/:id", async (req, res) => {
-  const id_editora = req.params.id;
+app.put("/editora/:id_editora", async (req, res) => {
+  const id_editora = req.params.id_editora;
   const { nome_editora, cnpj, endereco } = req.body;
   const respostabanco = await Editora.update(
     { nome_editora, cnpj, endereco },
@@ -85,8 +85,8 @@ app.put("/editora/:id", async (req, res) => {
 });
 
 //Deleta editora por id
-app.delete("/editora/:id", async (req, res) => {
-  const id_editora = req.params.id;
+app.delete("/editora/:id_editora", async (req, res) => {
+  const id_editora = req.params.id_editora;
   const respostabanco = await Editora.destroy({ where: { id_editora } });
   res.json(respostabanco);
 });
