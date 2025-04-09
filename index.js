@@ -3,6 +3,7 @@ import banco from "./banco.js";
 import editora from "./controller/EditoraController.js";
 import categoria from "./controller/CategoriaController.js";
 import autor from "./controller/AutorController.js";
+import livro from "./controller/LivroController.js";
 
 // Verificar se a conexão com o banco de dados foi estabelecida com sucesso
 try {
@@ -22,52 +23,32 @@ app.get("/teste", (req, res) => {
 });
 
 //Rotas CRUD tabela editora
-//Busca todos os registros editora
 app.get("/editora", editora.listar);
-
-//Busca editora por parametro de id
 app.get("/editora/:id_editora", editora.selecionar);
-
-//Insere editora
 app.post("/editora", editora.inserir);
-
-//Atualiza editora por id
 app.put("/editora/:id_editora", editora.alterar);
-
-//Deleta editora por id
 app.delete("/editora/:id_editora", editora.excluir);
 
 //Rotas CRUD tabela categoria
-//Busca todos os registros categoria
 app.get("/categoria", categoria.listar);
-
-//Busca categoria por parametro de id
 app.get("/categoria/:id_categoria", categoria.selecionar);
-
-//Insere categoria
 app.post("/categoria", categoria.inserir);
-
-//Atualiza categoria por id
 app.put("/categoria/:id_categoria", categoria.alterar);
-
-//Deleta categoria por id
 app.delete("/categoria/:id_categoria", categoria.excluir);
 
 //Rotas CRUD tabela autor
-//Busca todos os registros autor
 app.get("/autor", autor.listar);
-
-//Busca autor por parametro de id
 app.get("/autor/:id_autor", autor.selecionar);
-
-//Insere autor
 app.post("/autor", autor.inserir);
-
-//Atualiza autor por id
 app.put("/autor/:id_autor", autor.alterar);
-
-//Deleta autor por id
 app.delete("/autor/:id_autor", autor.excluir);
+
+//Rotas CRUD tabela livro
+app.get("/livro", livro.listar);
+app.get("/livro/:id_livro", livro.selecionar);
+app.post("/livro", livro.inserir);
+app.put("/livro/:id_livro", livro.alterar);
+app.delete("/livro/:id_livro", livro.excluir);
 
 // app conectada na porta 3000
 app.listen(3000, () => {

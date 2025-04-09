@@ -33,11 +33,8 @@ async function inserir(req, res) {
 // Atualiza autor por id
 async function alterar(req, res) {
   const id_autor = req.params.id_autor;
-  const { nome_autor } = req.body;
-  const { data_nascimento } = req.body;
-  const { biografia } = req.body;
-  const { nacionalidade } = req.body;
-  const { foto } = req.body;
+  const { nome_autor, data_nascimento, biografia, nacionalidade, foto } =
+    req.body;
   const respostabanco = await Autor.update(
     { nome_autor, data_nascimento, biografia, nacionalidade, foto },
     { where: { id_autor } }
