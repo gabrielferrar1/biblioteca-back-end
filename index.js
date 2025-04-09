@@ -1,6 +1,7 @@
 import express from "express";
 import banco from "./banco.js";
 import editora from "./controller/EditoraController.js";
+import categoria from "./controller/CategoriaController.js";
 
 // Verificar se a conexão com o banco de dados foi estabelecida com sucesso
 try {
@@ -34,6 +35,22 @@ app.put("/editora/:id_editora", editora.alterar);
 
 //Deleta editora por id
 app.delete("/editora/:id_editora", editora.excluir);
+
+//Rotas CRUD tabela categoria
+//Busca todos os registros categoria
+app.get("/categoria", categoria.listar);
+
+//Busca categoria por parametro de id
+app.get("/categoria/:id_categoria", categoria.selecionar);
+
+//Insere categoria
+app.post("/categoria", categoria.inserir);
+
+//Atualiza categoria por id
+app.put("/categoria/:id_categoria", categoria.alterar);
+
+//Deleta categoria por id
+app.delete("/categoria/:id_categoria", categoria.excluir);
 
 // app conectada na porta 3000
 app.listen(3000, () => {
