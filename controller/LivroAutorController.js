@@ -6,7 +6,7 @@ async function listar(req, res) {
   res.json(respostabanco);
 }
 
-//Busca LivroAutor por id
+//Busca LivroAutor por id_livro
 async function selecionarLivro(req, res) {
   const id_livro = req.params.id_livro;
   const respostabanco = await LivroAutor.findAll({
@@ -15,7 +15,7 @@ async function selecionarLivro(req, res) {
   res.json(respostabanco);
 }
 
-//Busca LivroAutor por id
+//Busca LivroAutor por id_autor
 async function selecionarAutor(req, res) {
   const id_autor = req.params.id_autor;
   const respostabanco = await LivroAutor.findAll({
@@ -24,7 +24,7 @@ async function selecionarAutor(req, res) {
   res.json(respostabanco);
 }
 
-//Insere livro
+//Insere livro e autor
 async function inserir(req, res) {
   const { id_livro, id_autor } = req.body;
   const respostabanco = await LivroAutor.create({
@@ -34,7 +34,7 @@ async function inserir(req, res) {
   res.json(respostabanco);
 }
 
-//Deleta livro por id
+//Deleta livro por id_livro e id_autor
 async function excluir(req, res) {
   const id_livro = req.params.id_livro;
   const id_autor = req.params.id_autor;
