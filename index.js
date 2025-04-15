@@ -4,6 +4,7 @@ import editora from "./controller/EditoraController.js";
 import categoria from "./controller/CategoriaController.js";
 import autor from "./controller/AutorController.js";
 import livro from "./controller/LivroController.js";
+import livroAutor from "./controller/LivroAutorController.js";
 
 // Verificar se a conexão com o banco de dados foi estabelecida com sucesso
 try {
@@ -49,6 +50,13 @@ app.get("/livro/:id_livro", livro.selecionar);
 app.post("/livro", livro.inserir);
 app.put("/livro/:id_livro", livro.alterar);
 app.delete("/livro/:id_livro", livro.excluir);
+
+//Rotas CRUD tabela livro_autor
+app.get("/livroAutor", livroAutor.listar);
+app.get("/livroAutor/livro/:id_livro", livroAutor.selecionarLivro);
+app.get("/livroAutor/autor/:id_autor", livroAutor.selecionarAutor);
+app.post("/livroAutor", livroAutor.inserir);
+app.delete("/livroAutor/:id_livro/:id_autor", livroAutor.excluir);
 
 // app conectada na porta 3000
 app.listen(3000, () => {
