@@ -79,7 +79,6 @@ async function emprestar(req, res) {
 // devolver livro por id_emprestimo e id_livro
 async function devolver(req, res) {
   const id_emprestimo = req.body.id_emprestimo;
-  const id_livro = req.body.id_livro || null;
 
   // verifica se id_emprestimo e id_livro foram informado
   if (!id_emprestimo) {
@@ -106,9 +105,9 @@ async function devolver(req, res) {
   );
 
   // alterando o status do campo emprestado na tabela livros para false
-  const livro = emprestimoBanco.id_livro;
+  const id_livro = emprestimoBanco.id_livro;
   const emprestado = false;
-  await Livro.update({ emprestado }, { where: { id_livro: livro } });
+  await Livro.update({ emprestado }, { where: { id_livro } });
 
   res.status(200).json(respostabanco);
 }
