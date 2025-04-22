@@ -68,12 +68,13 @@ app.post("/usuario", usuario.inserir);
 app.put("/usuario/:id_usuario", usuario.alterar);
 app.delete("/usuario/:id_usuario", usuario.excluir);
 
-//Rotas CRUD tabela emprestimo e consulta de livros disponíveis para emprestimo
+//Rotas tabela emprestimo, consulta de livros disponíveis para emprestimo e emprestimos com devolucao pendente
 app.get("/emprestimo", emprestimo.listar);
 app.get("/emprestimo/:id_emprestimo", emprestimo.selecionar);
 app.post("/emprestar", emprestimo.emprestar);
 app.put("/devolver", emprestimo.devolver);
 app.get("/consultarLivrosDisponiveis", emprestimo.consultarLivrosDisponiveis);
+app.get("/consultarEmprestimosPendentes", emprestimo.consultarEmprestimosPendentes);
 
 //Rotas CRUD tabela funcionario
 app.get("/funcionario", funcionario.listar);

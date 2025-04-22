@@ -112,7 +112,7 @@ async function devolver(req, res) {
   res.status(200).json(respostabanco);
 }
 
-// Consulta livros disponíveis para serem emprestados
+// consulta livros disponíveis para serem emprestados
 async function consultarLivrosDisponiveis(req, res) {
   const livrosDisponiveis = await Livro.findAll({
     where: {
@@ -122,10 +122,21 @@ async function consultarLivrosDisponiveis(req, res) {
   res.status(200).json(livrosDisponiveis);
 }
 
+// consulta empréstimos com devolução pendente
+async function consultarEmprestimosPendentes(req, res) {
+  const emprestimosPendentes = await Emprestimo.findAll({
+    where: {
+      devolucao: null,
+    },
+  });
+  res.status(200).json(emprestimosPendentes);
+}
+
 export default {
   listar,
   selecionar,
   emprestar,
   devolver,
   consultarLivrosDisponiveis,
+  consultarEmprestimosPendentes,
 };
