@@ -75,11 +75,12 @@ app.post("/emprestar", emprestimo.emprestar);
 app.put("/devolver", emprestimo.devolver);
 app.get("/consultarLivrosDisponiveis", emprestimo.consultarLivrosDisponiveis);
 
-//Rotas CRUD tabela usuario
+//Rotas CRUD tabela funcionario
 app.get("/funcionario", funcionario.listar);
 app.get("/funcionario/:id_funcionario", funcionario.selecionar);
 app.post("/funcionario", funcionario.inserir);
 app.put("/funcionario", funcionario.alterar);
+app.put("/funcionarioDemitir", funcionario.demitirFuncionario);
 
 // app conectada na porta 3000
 app.listen(3000, () => {
