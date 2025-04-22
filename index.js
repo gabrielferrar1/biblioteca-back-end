@@ -7,6 +7,7 @@ import livro from "./controller/LivroController.js";
 import livroAutor from "./controller/LivroAutorController.js";
 import usuario from "./controller/UsuarioController.js";
 import emprestimo from "./controller/EmprestimoController.js";
+import funcionario from "./controller/FuncionarioController.js";
 
 // Verificar se a conexão com o banco de dados foi estabelecida com sucesso
 try {
@@ -72,6 +73,12 @@ app.get("/emprestimo", emprestimo.listar);
 app.get("/emprestimo/:id_emprestimo", emprestimo.selecionar);
 app.post("/emprestar", emprestimo.emprestar);
 app.put("/devolver", emprestimo.devolver);
+
+//Rotas CRUD tabela usuario
+app.get("/funcionario", funcionario.listar);
+app.get("/funcionario/:id_funcionario", funcionario.selecionar);
+app.post("/funcionario", funcionario.inserir);
+app.put("/funcionario", funcionario.alterar);
 
 // app conectada na porta 3000
 app.listen(3000, () => {
