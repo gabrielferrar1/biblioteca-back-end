@@ -71,7 +71,7 @@ app.delete("/usuario/:id_usuario", usuario.excluir);
 app.get("/emprestimo", emprestimo.listar);
 app.get("/emprestimo/:id_emprestimo", emprestimo.selecionar);
 app.post("/emprestar", emprestimo.emprestar);
-app.put("/devolver/:id_emprestimo", emprestimo.devolver);
+app.put("/devolver", emprestimo.devolver);
 
 // app conectada na porta 3000
 app.listen(3000, () => {

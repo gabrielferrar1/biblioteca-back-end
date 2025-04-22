@@ -20,12 +20,14 @@ async function selecionar(req, res) {
 async function emprestar(req, res) {
   const id_livro = req.body.id_livro;
   const id_usuario = req.body.id_usuario;
+  const observacao = req.body.observacao || null;
 
-  //verificar se o livro e o usuario existem
+  // verifica se id_livro e id_usuario foram informados
   if (!id_livro) {
-    return res.status(422).send("O parâmetro id_livro é obrigatório.");
+    return res
+      .status(422)
+      .json({ error: "O parâmetro id_livro é obrigatório." });
   }
-
   if (!id_usuario) {
     return res
       .status(422)
@@ -35,22 +37,23 @@ async function emprestar(req, res) {
   //verifica se o livro existe
   const livroBanco = await Livro.findByPk(id_livro);
   if (!livroBanco) {
-    return res.status(404).send("Livro não encontrado.");
+    return res.status(404).json({ error: "Livro não encontrado." });
   }
 
+  //verifica se o usuario existe
   const usuarioBanco = await Usuario.findByPk(id_usuario);
   if (!usuarioBanco) {
-    return res.status(404).send("Usuário não encontrado.");
+    return res.status(404).json({ error: "Usuário não encontrado." });
   }
 
   //verifica se o livro esta inativo
   if (!livroBanco.ativo) {
-    return res.status(422).send("Livro inativo.");
+    return res.status(422).json({ error: "Livro inativo." });
   }
 
   //verifica se o livro ja esta emprestado
   if (livroBanco.emprestado === true) {
-    return res.status(422).send("Livro já emprestado.");
+    return res.status(422).json({ error: "Livro já emprestado." });
   }
 
   //setando data de emprestimo e data de vencimento
@@ -58,29 +61,56 @@ async function emprestar(req, res) {
   const vencimento = moment().add(15, "days").format("YYYY-MM-DD");
 
   // inserindo o emprestimo no banco
-  const respostaBanco = await Emprestimo.create({
+  const respostabanco = await Emprestimo.create({
     id_livro,
     id_usuario,
     emprestimo,
     vencimento,
+    observacao,
   });
 
   //alterando o status do campo emprestado para true
   const emprestado = true;
   await Livro.update({ emprestado }, { where: { id_livro } });
-  res.json(respostaBanco);
+
+  res.status(201).json(respostabanco);
 }
 
-// Atualiza emprestimo por id
+// devolver livro por id_emprestimo e id_livro
 async function devolver(req, res) {
-  const id_autor = req.params.id_autor;
-  const { nome_autor, data_nascimento, biografia, nacionalidade, foto } =
-    req.body;
+  const id_emprestimo = req.body.id_emprestimo;
+  const id_livro = req.body.id_livro || null;
+
+  // verifica se id_emprestimo e id_livro foram informado
+  if (!id_emprestimo) {
+    return res
+      .status(422)
+      .json({ error: "O parâmetro id_emprestimo é obrigatório." });
+  }
+
+  // verifica se o id_emprestimo existe no banco de dados
+  const emprestimoBanco = await Emprestimo.findByPk(id_emprestimo);
+  if (!emprestimoBanco) {
+    return res.status(404).json({ error: "Empréstimo não encontrado." });
+  }
+
+  // verifica se o emprestimo já foi devolvido, caso sim retorna a mensagem caso o campo "devolucao" no banco de dados esteja null ele segue com a atualização do registro
+  if (emprestimoBanco.devolucao !== null) {
+    return res.status(422).json({ message: "O empréstimo já foi devolvido." });
+  }
+
+  const devolucao = moment().format("YYYY-MM-DD");
   const respostabanco = await Emprestimo.update(
-    { nome_autor, data_nascimento, biografia, nacionalidade, foto },
-    { where: { id_autor } }
+    { devolucao },
+    { where: { id_emprestimo } }
   );
-  res.json(respostabanco);
+
+  // alterando o status do campo emprestado na tabela livros para false
+  const livro = emprestimoBanco.id_livro;
+  const emprestado = false;
+  await Livro.update({ emprestado }, { where: { id_livro: livro } });
+
+  res.status(200).json(respostabanco);
 }
 
 export default { listar, selecionar, emprestar, devolver };
