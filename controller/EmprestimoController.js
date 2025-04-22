@@ -112,4 +112,20 @@ async function devolver(req, res) {
   res.status(200).json(respostabanco);
 }
 
-export default { listar, selecionar, emprestar, devolver };
+// Consulta livros disponíveis para serem emprestados
+async function consultarLivrosDisponiveis(req, res) {
+  const livrosDisponiveis = await Livro.findAll({
+    where: {
+      emprestado: false,
+    },
+  });
+  res.status(200).json(livrosDisponiveis);
+}
+
+export default {
+  listar,
+  selecionar,
+  emprestar,
+  devolver,
+  consultarLivrosDisponiveis,
+};

@@ -68,11 +68,12 @@ app.post("/usuario", usuario.inserir);
 app.put("/usuario/:id_usuario", usuario.alterar);
 app.delete("/usuario/:id_usuario", usuario.excluir);
 
-//Rotas CRUD tabela emprestimo
+//Rotas CRUD tabela emprestimo e consulta de livros disponíveis para emprestimo
 app.get("/emprestimo", emprestimo.listar);
 app.get("/emprestimo/:id_emprestimo", emprestimo.selecionar);
 app.post("/emprestar", emprestimo.emprestar);
 app.put("/devolver", emprestimo.devolver);
+app.get("/consultarLivrosDisponiveis", emprestimo.consultarLivrosDisponiveis);
 
 //Rotas CRUD tabela usuario
 app.get("/funcionario", funcionario.listar);
