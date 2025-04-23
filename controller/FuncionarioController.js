@@ -155,4 +155,48 @@ async function demitirFuncionario(req, res) {
   res.status(201).json(respostabanco);
 }
 
-export default { listar, selecionar, inserir, alterar, demitirFuncionario };
+// definir senha para o funcionario
+async function definirSenha(req, res) {
+  const { id_funcionario, senha } = req.body;
+
+  //valida se o id_funcionario foi informado
+  if (!id_funcionario) {
+    return res
+      .status(422)
+      .json({ error: "O parâmetro id_funcionario é obrigatório." });
+  }
+
+  //validar se o funcionario existe
+  const funcionarioBanco = await Funcionario.findByPk(id_funcionario);
+  if (!funcionarioBanco) {
+    return res.status(404).json({ error: "Funcionário não encontrado." });
+  }
+
+  //valida se a senha foi informada
+  if (!senha) {
+    return res.status(422).json({ error: "O parâmetro senha é obrigatório." });
+  }
+
+  //valida se a senha tem no minimo 6 digitos e no máximo 20 digitos
+  if (senha.length < 6 || senha.length > 20) {
+    return res.status(422).json({
+      message: "A senha deve ter entre 6 e 20 caracteres.",
+    });
+  }
+
+  const respostabanco = await Funcionario.update(
+    { senha, token: null },
+    { where: { id_funcionario } }
+  );
+
+  res.status(201).json(respostabanco);
+}
+
+export default {
+  listar,
+  selecionar,
+  inserir,
+  alterar,
+  demitirFuncionario,
+  definirSenha,
+};

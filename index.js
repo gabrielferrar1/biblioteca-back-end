@@ -74,7 +74,10 @@ app.get("/emprestimo/:id_emprestimo", emprestimo.selecionar);
 app.post("/emprestar", emprestimo.emprestar);
 app.put("/devolver", emprestimo.devolver);
 app.get("/consultarLivrosDisponiveis", emprestimo.consultarLivrosDisponiveis);
-app.get("/consultarEmprestimosPendentes", emprestimo.consultarEmprestimosPendentes);
+app.get(
+  "/consultarEmprestimosPendentes",
+  emprestimo.consultarEmprestimosPendentes
+);
 
 //Rotas CRUD tabela funcionario
 app.get("/funcionario", funcionario.listar);
@@ -82,6 +85,7 @@ app.get("/funcionario/:id_funcionario", funcionario.selecionar);
 app.post("/funcionario", funcionario.inserir);
 app.put("/funcionario", funcionario.alterar);
 app.put("/funcionarioDemitir", funcionario.demitirFuncionario);
+app.put("/funcionarioDefinirSenha", funcionario.definirSenha);
 
 // app conectada na porta 3000
 app.listen(3000, () => {
