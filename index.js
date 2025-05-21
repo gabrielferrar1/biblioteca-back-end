@@ -8,6 +8,7 @@ import livroAutor from "./controller/LivroAutorController.js";
 import usuario from "./controller/UsuarioController.js";
 import emprestimo from "./controller/EmprestimoController.js";
 import funcionario from "./controller/FuncionarioController.js";
+import cors from "cors";
 
 // Verificar se a conexão com o banco de dados foi estabelecida com sucesso
 try {
@@ -20,6 +21,7 @@ try {
 // Utilização no app Express e app.use utiliza de corpo JSON
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // Teste de requisicao de rota
 app.get("/teste", (req, res) => {
@@ -88,6 +90,6 @@ app.put("/funcionarioDemitir", funcionario.demitirFuncionario);
 app.put("/funcionarioDefinirSenha", funcionario.definirSenha);
 
 // app conectada na porta 3000
-app.listen(3000, () => {
-  console.log(`Servidor está rodando na porta 3000`);
+app.listen(4000, () => {
+  console.log(`Servidor está rodando na porta 4000`);
 });
